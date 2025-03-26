@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Button } from "@heroui/button";
 
 const data = [
@@ -113,34 +113,36 @@ export default function TodoData() {
   }, [checkedRows]);
 
   return (
-    <div className="p-24 text-gray-700  relative6">
-      <Button
-        size="small"
-        className={`bg-blue-500 text-white p-6  rounded-full absolte z-20 cursor-pointer ${
-          isAddedData ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-        onClick={() => toggle()}
-        disabled={isAddedData}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6"
+    <div className="p-24 text-gray-700  relative">
+      <div className="top-0 absolute cursor-pointer">
+        <Button
+          className={`bg-blue-500 text-white p-2  rounded-full cursor-pointer   ${
+            isAddedData ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={() => toggle()}
+          disabled={isAddedData}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-          />
-        </svg>
-      </Button>
-      <div className="flex justify-between items-center mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+          <span className="text-black hover:flex hidden">Add</span>
+        </Button>
+      </div>
+      <div className="flex justify-between items-center mb-4 mt-24">
         <h2 className="text-xl font-semibold">Todo Overview</h2>
         <select
-          className="border p-2 rounded cursor-pointer"
+          className="border p-2 rounded"
           value={selectedFilter}
           onChange={(e) => setSelectedFilter(e.target.value)}
         >
@@ -195,35 +197,54 @@ export default function TodoData() {
 
                 <td className="p-3">{item.dueDate}</td>
                 <td className="p-3">
-                  <button
-                    className="mr-2 bg-red-600 hover:bg-red-500 text-white p-2 rounded cursor-pointer"
+                  <Button
+                    color="danger"
+                    className="mr-2"
                     onClick={() => handleDelete(index)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <div
-          className={` bg-gray-50 w-full h-full ${
-            isAddedData ? "flex justify-center items-center " : "hidden"
+          className={`fixed inset-0 bg-gray-50 bg-opacity-30 backdrop-blur-md flex justify-center items-center transition-opacity duration-300 ${
+            isAddedData ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         >
-          <div className=" absolute flex items-center justify-center top-0 mx-auto bg-white shadow-md h-2/4 w-2/4 rounded">
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-4 p-4 bg-white shadow-md rounded"
+          <div className=" absolute flex items-center justify-center mx-auto bg-white shadow-md h-2/4 w-2/4 rounded-3xl">
+            <button
+              className="text-gray-800 absolute top-0 right-0 m-10 cursor-pointer"
+         
+              onClick={() => toggle()}
+         
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <form onSubmit={handleSubmit} className="space-y-4 p-4">
               <h2 className="text-xl font-bold">Add Todo</h2>
               <input
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                type="text"
                 required
+                type="text"
                 placeholder="Add a new todo"
                 className="border w-full border-gray-300 rounded p-2"
               />
@@ -232,8 +253,8 @@ export default function TodoData() {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                type="text"
                 required
+                type="text"
                 placeholder="Description"
                 className="border w-full border-gray-300 rounded p-2"
               />
@@ -260,7 +281,7 @@ export default function TodoData() {
               </select>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded cursor-pointer"
+                className="w-full bg-blue-500 text-white p-2 rounded"
               >
                 Add Todo
               </button>
